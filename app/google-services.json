@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "893639354399",
+    "project_id": "insuranceagent-853a8",
+    "storage_bucket": "insuranceagent-853a8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:893639354399:android:e79a56dbb65413fa388d2a",
+        "android_client_info": {
+          "package_name": "com.example.insuranceagent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "893639354399-3gsk1cvprqq3sddkf23hl8togc0qd583.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.insuranceagent",
+            "certificate_hash": "8f9508281e1770dfb634e46f7b65377d7eb9f793"
+          }
+        },
+        {
+          "client_id": "893639354399-p7hgeqo8922a9gjgl2fhkj8nk6msoo2r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdgwqum3JzVdPxVGKnnIQhQbtLl4S35dE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "893639354399-p7hgeqo8922a9gjgl2fhkj8nk6msoo2r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

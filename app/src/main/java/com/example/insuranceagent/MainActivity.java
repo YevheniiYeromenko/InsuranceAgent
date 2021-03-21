@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     // TODO: 21.03.2021 "Создать одну рабочую активити з авторизацией FirebaseUI" 
+    // TODO: 21.03.2021 "Создать одну рабочую активити з авторизацией FirebaseUI"
     private static final int RC_SIGN_IN = 5791;
     private FirebaseAuth auth;
     private FirebaseAuth.AuthStateListener authStateListener;

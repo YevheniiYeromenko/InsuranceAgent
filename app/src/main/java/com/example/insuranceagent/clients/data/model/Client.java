@@ -1,8 +1,4 @@
-package com.example.insuranceagent.business.clients.data.model;
-
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+package com.example.insuranceagent.clients.data.model;
 
 public class Client {
     private String name;

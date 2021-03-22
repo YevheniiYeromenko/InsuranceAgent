@@ -1,4 +1,4 @@
-package com.example.insuranceagent.business.info;
+package com.example.insuranceagent.info;
 
 import android.os.Bundle;
 

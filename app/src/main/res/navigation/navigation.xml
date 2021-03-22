@@ -7,12 +7,12 @@
 
     <fragment
         android:id="@+id/clientsFragment"
-        android:name="com.example.insuranceagent.business.clients.ClientsFragment"
+        android:name="com.example.insuranceagent.clients.ClientsFragment"
         android:label="fragment_clients"
         tools:layout="@layout/fragment_clients" />
     <fragment
         android:id="@+id/infoFragment"
-        android:name="com.example.insuranceagent.business.info.InfoFragment"
+        android:name="com.example.insuranceagent.info.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" />
 </navigation>

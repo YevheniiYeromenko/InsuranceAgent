@@ -1,44 +1,20 @@
 package com.example.insuranceagent.business.clients.data.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
+import java.sql.Time;
+import java.util.Date;
+
+@Entity
 public class Client {
+    @PrimaryKey
+    private Integer id;
     private String name;
-    private String polis;
+    private String policyFirstNumber;
+    private String policySecondNumber;
     private String telNumber;
+    private String address;
+    private Date startDate;
 
-    public Client(String name, String polis, String telNumber) {
-        this.name = name;
-        this.polis = polis;
-        this.telNumber = telNumber;
-    }
-
-    public Client() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPolis() {
-        return polis;
-    }
-
-    public void setPolis(String polis) {
-        this.polis = polis;
-    }
-
-    public String getTelNumber() {
-        return telNumber;
-    }
-
-    public void setTelNumber(String telNumber) {
-        this.telNumber = telNumber;
-    }
 }

@@ -10,6 +10,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -22,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class BusinessActivity extends AppCompatActivity {
 
@@ -38,8 +40,11 @@ public class BusinessActivity extends AppCompatActivity {
         nav_view = findViewById(R.id.nav_view);
         main_toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(main_toolbar);
+        //getSupportActionBar().setTitle("My title");
 
         auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        Log.wtf("BusinessActivity", user.getEmail() + "  " + user.getDisplayName());
 
         main_toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override

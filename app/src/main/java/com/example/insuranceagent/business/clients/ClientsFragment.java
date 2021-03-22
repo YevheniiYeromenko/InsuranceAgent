@@ -1,5 +1,6 @@
 package com.example.insuranceagent.business.clients;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.insuranceagent.App;
 import com.example.insuranceagent.R;
+import com.example.insuranceagent.business.clients.data.database.room.ClientDao;
+import com.example.insuranceagent.business.clients.data.database.room.ClientDatabase;
 import com.example.insuranceagent.business.clients.data.model.Client;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -36,9 +40,9 @@ public class ClientsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private DatabaseReference myRef;
     private FirebaseAuth auth;
     private List<Client> clients = new ArrayList<>();
+    private ClientDao clientDao;
 
 
     @Override
@@ -54,19 +58,52 @@ public class ClientsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         auth = FirebaseAuth.getInstance();
-        myRef = FirebaseDatabase.getInstance().getReference(auth.getUid());
-        Client client1 = new Client("Yevhenii", "100361864", "+380956180868");
-        Client client2 = new Client("Yeromenko", "100361863", "+380956180868");
-        clients.add(client1);
-        clients.add(client2);
 
-//        myRef.push().setValue(client1);
-//        myRef.push().setValue(client2);
-//        myRef.push().setValue(clients);
 
-        //myRef.setValue("Hello, World!");
-        // Read from the database
+        ClientDatabase database = App.getInstance().getClientDatabase();
+        clientDao = database.clientDao();
+
+        new AddClient().execute();
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_clients, container, false);
+    }
+
+    class AddClient extends AsyncTask<Void, Void, Void>{
+        private Client client = new Client("Yevhenii Yeromenko",
+                "100361863",
+                "100361864",
+                "+380956180868",
+                "м.Помічна, вул. Будівельників 7, кв.30");
+        @Override
+        protected Void doInBackground(Void... voids) {
+            clientDao.addClient(client);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            new GetClients().execute();
+        }
+    }
+
+    class GetClients extends AsyncTask<Void, Void, List<Client>>{
+        @Override
+        protected List<Client> doInBackground(Void... voids) {
+            List<Client> clients = clientDao.getAllClients();
+            return clients;
+        }
+
+        @Override
+        protected void onPostExecute(List<Client> list) {
+            super.onPostExecute(list);
+            for (int i = 0; i < list.size(); i++) {
+                Log.wtf("______ROOM DATABASE______", list.get(i).getName());
+                Log.wtf("______ROOM DATABASE______", list.get(i).getPolicyFirstNumber());
+                Log.wtf("______ROOM DATABASE______", list.get(i).getAddress());
+            }
+
+        }
     }
 }

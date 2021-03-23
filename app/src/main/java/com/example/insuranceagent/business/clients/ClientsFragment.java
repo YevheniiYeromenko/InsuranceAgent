@@ -1,11 +1,15 @@
 package com.example.insuranceagent.business.clients;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,8 +17,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.insuranceagent.App;
+import com.example.insuranceagent.ItemClickSupport;
 import com.example.insuranceagent.R;
 import com.example.insuranceagent.business.clients.adapter.ClientAdapterRV;
 import com.example.insuranceagent.business.clients.data.database.room.ClientDao;
@@ -22,6 +28,8 @@ import com.example.insuranceagent.business.clients.data.database.room.ClientData
 import com.example.insuranceagent.business.clients.data.model.Client;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,11 +53,12 @@ public class ClientsFragment extends Fragment {
     private String mParam2;
 
     private FirebaseAuth auth;
-    private List<Client> clients = new ArrayList<>();
+    private List<Client> clientList = new ArrayList<>();
     private ClientDao clientDao;
 
     private RecyclerView rv;
     private ClientAdapterRV adapterRV;
+    private FloatingActionButton fabAddClient;
 
 
     @Override
@@ -76,33 +85,56 @@ public class ClientsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        getActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
+
+        fabAddClient = view.findViewById(R.id.fabAddClient);
+        fabAddClient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_clientsFragment_to_addClientFragment);
+            }
+        });
+
         rv = view.findViewById(R.id.rvClient);
         rv.setLayoutManager(new GridLayoutManager(getContext(), 2));
         adapterRV = new ClientAdapterRV(getContext());
+        ItemClickSupport.addTo(rv).setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClicked(RecyclerView recyclerView, int position, View v) {
+                //new DeleteClient().execute(clientList.get(position));
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Видалити контакт?")
+                        .setPositiveButton("Так", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                new DeleteClient().execute(clientList.get(position));
+                                Toast.makeText(getContext(), "Видалено", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Ні", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setNeutralButton("Редагувати", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getContext(), "Редагування", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .show();
+
+                return false;
+            }
+        });
+
         //new AddClient().execute();
         new GetClients().execute();
 
     }
 
-    class AddClient extends AsyncTask<Void, Void, Void> {
-        private Client client = new Client("Yevhenii Yeromenko",
-                "100361863",
-                "100361864",
-                "+380956180868",
-                "м.Помічна, вул. Будівельників 7, кв.30");
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            clientDao.addClient(client);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            new GetClients().execute();
-        }
-    }
 
     class GetClients extends AsyncTask<Void, Void, List<Client>> {
         @Override
@@ -114,6 +146,7 @@ public class ClientsFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Client> list) {
             super.onPostExecute(list);
+            clientList = list;
             for (int i = 0; i < list.size(); i++) {
                 Log.wtf("______ROOM DATABASE______", list.get(i).getName());
                 Log.wtf("______ROOM DATABASE______", list.get(i).getPolicyFirstNumber());
@@ -126,4 +159,21 @@ public class ClientsFragment extends Fragment {
 
         }
     }
+
+    class DeleteClient extends AsyncTask<Client, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Client... clients) {
+            clientDao.deleteClient(clients[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            new GetClients().execute();
+        }
+    }
+
+
 }

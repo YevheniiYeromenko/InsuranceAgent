@@ -4,7 +4,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.example.insuranceagent.App;
 import com.example.insuranceagent.R;
+import com.example.insuranceagent.business.clients.adapter.ClientAdapterRV;
 import com.example.insuranceagent.business.clients.data.database.room.ClientDao;
 import com.example.insuranceagent.business.clients.data.database.room.ClientDatabase;
 import com.example.insuranceagent.business.clients.data.model.Client;
@@ -44,6 +48,9 @@ public class ClientsFragment extends Fragment {
     private List<Client> clients = new ArrayList<>();
     private ClientDao clientDao;
 
+    private RecyclerView rv;
+    private ClientAdapterRV adapterRV;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,23 +65,32 @@ public class ClientsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         auth = FirebaseAuth.getInstance();
-
-
         ClientDatabase database = App.getInstance().getClientDatabase();
         clientDao = database.clientDao();
-
-        new AddClient().execute();
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_clients, container, false);
     }
 
-    class AddClient extends AsyncTask<Void, Void, Void>{
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        rv = view.findViewById(R.id.rvClient);
+        rv.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        adapterRV = new ClientAdapterRV(getContext());
+        //new AddClient().execute();
+        new GetClients().execute();
+
+    }
+
+    class AddClient extends AsyncTask<Void, Void, Void> {
         private Client client = new Client("Yevhenii Yeromenko",
                 "100361863",
                 "100361864",
                 "+380956180868",
                 "м.Помічна, вул. Будівельників 7, кв.30");
+
         @Override
         protected Void doInBackground(Void... voids) {
             clientDao.addClient(client);
@@ -88,7 +104,7 @@ public class ClientsFragment extends Fragment {
         }
     }
 
-    class GetClients extends AsyncTask<Void, Void, List<Client>>{
+    class GetClients extends AsyncTask<Void, Void, List<Client>> {
         @Override
         protected List<Client> doInBackground(Void... voids) {
             List<Client> clients = clientDao.getAllClients();
@@ -103,6 +119,10 @@ public class ClientsFragment extends Fragment {
                 Log.wtf("______ROOM DATABASE______", list.get(i).getPolicyFirstNumber());
                 Log.wtf("______ROOM DATABASE______", list.get(i).getAddress());
             }
+
+            rv.setAdapter(adapterRV);
+            adapterRV.setList(list);
+
 
         }
     }

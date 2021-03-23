@@ -15,8 +15,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        clientDatabase = Room.databaseBuilder(this, ClientDatabase.class, "client_database")
-                .build();
+        if (clientDatabase == null) {
+            clientDatabase = Room.databaseBuilder(this, ClientDatabase.class, "client_database")
+                    .build();
+        }
 
     }
 

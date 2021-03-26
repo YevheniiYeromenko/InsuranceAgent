@@ -14,18 +14,16 @@
             android:id="@+id/action_clientsFragment_to_addClientFragment"
             app:destination="@id/addClientFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/infoFragment"
         android:name="com.example.insuranceagent.business.info.InfoFragment"
         android:label="fragment_info"
         tools:layout="@layout/fragment_info" />
+
     <fragment
         android:id="@+id/addClientFragment"
         android:name="com.example.insuranceagent.business.addClient.AddClientFragment"
         android:label="fragment_add_client"
-        tools:layout="@layout/fragment_add_client" >
-        <action
-            android:id="@+id/action_addClientFragment_to_clientsFragment"
-            app:destination="@id/clientsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_add_client"/>
 </navigation>

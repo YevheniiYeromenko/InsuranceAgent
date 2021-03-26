@@ -11,22 +11,24 @@ public class Client {
     @PrimaryKey(autoGenerate = true)
     private Integer id;
     private String name;
-    private String policyFirstNumber;
-    private String policySecondNumber;
     private String telNumber;
     private String address;
-//    private Date startDate;
-
+    private String policyFirstNumber;
+    private String policySecondNumber;
+    private Integer duration;
+    private String startDate;
 
     public Client() {
     }
 
-    public Client(String name, String policyFirstNumber, String policySecondNumber, String telNumber, String address) {
+    public Client(String name, String telNumber, String address, String policyFirstNumber, String policySecondNumber, Integer duration, String startDate) {
         this.name = name;
-        this.policyFirstNumber = policyFirstNumber;
-        this.policySecondNumber = policySecondNumber;
         this.telNumber = telNumber;
         this.address = address;
+        this.policyFirstNumber = policyFirstNumber;
+        this.policySecondNumber = policySecondNumber;
+        this.duration = duration;
+        this.startDate = startDate;
     }
 
     public Integer getId() {
@@ -45,6 +47,22 @@ public class Client {
         this.name = name;
     }
 
+    public String getTelNumber() {
+        return telNumber;
+    }
+
+    public void setTelNumber(String telNumber) {
+        this.telNumber = telNumber;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getPolicyFirstNumber() {
         return policyFirstNumber;
     }
@@ -61,19 +79,19 @@ public class Client {
         this.policySecondNumber = policySecondNumber;
     }
 
-    public String getTelNumber() {
-        return telNumber;
+    public Integer getDuration() {
+        return duration;
     }
 
-    public void setTelNumber(String telNumber) {
-        this.telNumber = telNumber;
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
-    public String getAddress() {
-        return address;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
 }

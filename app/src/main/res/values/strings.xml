@@ -3,4 +3,46 @@
     <string name="registration">Регистрация</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Client's strings-->
+    <string name="til_client_name">Прізвище Ім\'я</string>
+    <string name="til_client_tel_number">Номер телефона</string>
+    <string name="til_client_address">Адреса</string>
+    <string name="til_client_policy_duration">Строк</string>
+    <string name="til_client_pocicy_start_date">Дата випуску поліса</string>
+    <string name="til_client_policy_first_number">Номер полісу №1</string>
+
+    <string name="til_client_policy_second_number">Номер полісу №2</string>
+    <string name="til_client_policy_second_price">Премія</string>
+    <string name="til_client_policy_ADob">AD/AD-ob – Смерть внаслідок НВ</string>
+    <string name="til_client_policy_ADTraffic">AD Traffic – Смерть внаслідок НВ на транспорті</string>
+    <string name="til_client_policy_PI">PI – Непрацездатність внаслідок НВ</string>
+    <string name="til_client_policy_PITraffic">PI Traffic - Непрацездатність внаслідок НВ на транспорті</string>
+    <string name="til_client_policy_BBB">BBB - Перелом або опіки</string>
+    <string name="til_client_policy_BI">BI - Тілесні ушкодження</string>
+    <string name="til_client_policy_HSC">H/S/C - Госпіталізація/Хірургія/Непрацездатність після госпіталізації</string>
+    <string name="til_client_policy_H">H - госпіталізація</string>
+    <string name="til_client_policy_S">S - хірургічне втручання</string>
+    <string name="til_client_policy_C">C - одужання після госпіталізації</string>
+    <string name="til_client_policy_FC">FC – Страхування на випадок раку жіночого органу (Діагноз)</string>
+    <string name="til_client_policy_FC_diagnosis">Діагноз</string>
+    <string name="til_client_policy_FC_month">Щомісячна виплата</string>
+    <string name="til_client_policy_FC_day">Госпіталізація</string>
+    <string name="til_client_policy_CFB">CFB – Страхування на випадок критичних жіночих ризиків Діагностування раку жіночого органу</string>
+    <string name="til_client_policy_CFB_death">Смерть ЗО при УВП</string>
+    <string name="til_client_policy_CFB_hospital">Госпіталізація при УВП</string>
+    <string name="til_client_policy_CFB_reanimation">Реанімація при УВП</string>
+    <string name="til_client_policy_CFB_d1">на 1 рік</string>
+    <string name="til_client_policy_CFB_d10">на 10 років</string>
+    <string name="til_client_policy_CFB_d65">до 65 років</string>
+    <string name="til_client_policy_CI">СІ – Критичне захворювання</string>
+    <string name="til_client_policy_CI_diagnosis">Діагноз</string>
+    <string name="til_client_policy_CI_1">1</string>
+    <string name="til_client_policy_CI_7">7</string>
+    <string name="til_client_policy_CI_32">32</string>
+    <string name="til_client_policy_CI_d1">на 1 рік</string>
+    <string name="til_client_policy_CI_d10">на 10 років</string>
+    <string name="til_client_policy_CI_d65">до 65 років</string>
+
+
 </resources>

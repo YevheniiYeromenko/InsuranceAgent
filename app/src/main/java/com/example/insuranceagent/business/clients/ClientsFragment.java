@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,6 +69,7 @@ public class ClientsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -86,6 +88,9 @@ public class ClientsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         getActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
+        //Navigation.findNavController(view).popBackStack();
+        //getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
 
         fabAddClient = view.findViewById(R.id.fabAddClient);
         fabAddClient.setOnClickListener(new View.OnClickListener() {

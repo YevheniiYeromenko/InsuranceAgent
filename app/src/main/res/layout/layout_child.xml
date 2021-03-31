@@ -7,6 +7,9 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilSecondPolicyNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,6 +25,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilSecondPolicyPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,6 +44,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddADob"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -54,6 +63,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddADTraffic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,6 +82,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddPI"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -86,6 +101,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddPITraffic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,6 +120,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddBBB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -118,6 +139,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddBI"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -143,6 +167,9 @@
         app:layout_constraintTop_toBottomOf="@+id/tilAddBI" />
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddH"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -159,6 +186,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddS"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -175,6 +205,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddC"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -207,6 +240,9 @@
         app:layout_constraintTop_toBottomOf="@id/tilAddC" />
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddFCdiagnosis"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -223,6 +259,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddFCmonth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -239,6 +278,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddFCday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -255,6 +297,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilAddCFBdeath"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -271,6 +316,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilCFBhospital"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -287,6 +335,9 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/tilCFBreanimation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -355,6 +406,9 @@
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        app:boxStrokeColor="#FFA000"
+        app:hintTextColor="#0288D1"
         android:id="@+id/textInputLayout11"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -401,7 +455,7 @@
     </RadioGroup>
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/radio_group_CI_1_10_65"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"

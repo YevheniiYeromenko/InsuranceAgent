@@ -25,5 +25,14 @@
         android:id="@+id/addClientFragment"
         android:name="com.example.insuranceagent.business.addClient.AddClientFragment"
         android:label="fragment_add_client"
-        tools:layout="@layout/fragment_add_client"/>
+        tools:layout="@layout/fragment_add_client">
+        <action
+            android:id="@+id/action_addClientFragment_to_secondPolicyFragment"
+            app:destination="@id/secondPolicyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/secondPolicyFragment"
+        android:name="com.example.insuranceagent.business.addClient.SecondPolicyFragment"
+        android:label="fragment_second_policy"
+        tools:layout="@layout/fragment_second_policy" />
 </navigation>

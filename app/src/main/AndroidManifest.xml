@@ -11,9 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.InsuranceAgent">
-        <activity android:name=".business.BusinessActivity"></activity>
+        <activity android:name=".business.BusinessActivity"
+            android:windowSoftInputMode="adjustPan"></activity>
         <activity android:name=".registration.RegistrationActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

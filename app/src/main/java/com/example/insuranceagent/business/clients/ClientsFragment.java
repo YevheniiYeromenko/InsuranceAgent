@@ -1,15 +1,14 @@
 package com.example.insuranceagent.business.clients;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,31 +26,13 @@ import com.example.insuranceagent.business.clients.adapter.ClientAdapterRV;
 import com.example.insuranceagent.business.clients.data.database.room.ClientDao;
 import com.example.insuranceagent.business.clients.data.database.room.ClientDatabase;
 import com.example.insuranceagent.business.clients.data.model.Client;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientsFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private static final String TAG = "TAG";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private FirebaseAuth auth;
     private List<Client> clientList = new ArrayList<>();
@@ -61,16 +42,6 @@ public class ClientsFragment extends Fragment {
     private ClientAdapterRV adapterRV;
     private FloatingActionButton fabAddClient;
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -88,6 +59,9 @@ public class ClientsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         getActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
+
+        ((Toolbar) (getActivity().findViewById(R.id.main_toolbar)))
+                .getMenu();
         //Navigation.findNavController(view).popBackStack();
         //getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
@@ -138,7 +112,6 @@ public class ClientsFragment extends Fragment {
         new GetClients().execute();
 
     }
-
 
 
     class GetClients extends AsyncTask<Void, Void, List<Client>> {

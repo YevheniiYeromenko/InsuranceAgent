@@ -1,4 +1,4 @@
-package com.example.insuranceagent.business.clients.adapter;
+package com.example.insuranceagent.business.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.insuranceagent.R;
-import com.example.insuranceagent.business.clients.data.model.Client;
+import com.example.insuranceagent.business.data.model.Client;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class ClientAdapterRV extends RecyclerView.Adapter<ClientAdapterRV.Client
 
     @Override
     public void onBindViewHolder(@NonNull ClientViewHolder holder, int position) {
-        holder.bind(clientList.get(position).getName());
+        holder.bind(clientList.get(position).name, position);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ClientAdapterRV extends RecyclerView.Adapter<ClientAdapterRV.Client
             tvItemClinetName = itemView.findViewById(R.id.tvItemClinetName);
         }
 
-        public void bind(String title) {
+        public void bind(String title, int position) {
             tvItemClinetName.setText(title);
             Glide.with(context)
                     .load("https://media.licdn.com/dms/image/C4E0BAQGvfZGd31Hw_Q/company-logo_200_200/0?e=2159024400&v=beta&t=zXUgvlTYqfO4cCIr5kggBOcypfhK4i4pbMtzq6dbeP8")

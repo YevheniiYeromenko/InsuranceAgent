@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.example.insuranceagent.MainActivity;
 import com.example.insuranceagent.R;
-import com.example.insuranceagent.business.clients.data.model.Client;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -70,7 +69,7 @@ public class BusinessActivity extends AppCompatActivity {
         });
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.clientsFragment, R.id.infoFragment)
+                R.id.clientsFragment, R.id.calculatorFragment, R.id.infoFragment)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(nav_view, navController);

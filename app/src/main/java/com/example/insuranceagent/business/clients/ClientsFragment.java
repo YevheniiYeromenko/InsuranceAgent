@@ -1,6 +1,5 @@
 package com.example.insuranceagent.business.clients;
 
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -22,32 +21,41 @@ import android.widget.Toast;
 import com.example.insuranceagent.App;
 import com.example.insuranceagent.ItemClickSupport;
 import com.example.insuranceagent.R;
-import com.example.insuranceagent.business.clients.adapter.ClientAdapterRV;
-import com.example.insuranceagent.business.clients.data.database.room.ClientDao;
-import com.example.insuranceagent.business.clients.data.database.room.ClientDatabase;
-import com.example.insuranceagent.business.clients.data.model.Client;
+import com.example.insuranceagent.business.adapter.ClientAdapterRV;
+import com.example.insuranceagent.business.data.database.room.ClientDao;
+import com.example.insuranceagent.business.data.database.room.InsuranceDatabase;
+import com.example.insuranceagent.business.data.model.Client;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.CompletableObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+
 public class ClientsFragment extends Fragment {
 
-    private FirebaseAuth auth;
     private List<Client> clientList = new ArrayList<>();
     private ClientDao clientDao;
 
     private RecyclerView rv;
     private ClientAdapterRV adapterRV;
-    private FloatingActionButton fabAddClient;
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null)
+            Log.e("TAG", "onCreate: " + getArguments().getString("BUNDLE"));
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        auth = FirebaseAuth.getInstance();
-        ClientDatabase database = App.getInstance().getClientDatabase();
+        InsuranceDatabase database = App.getInstance().getInsuranceDatabase();
         clientDao = database.clientDao();
 
         // Inflate the layout for this fragment
@@ -59,14 +67,15 @@ public class ClientsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         getActivity().findViewById(R.id.nav_view).setVisibility(View.VISIBLE);
+        Toolbar toolbar = getActivity().findViewById(R.id.main_toolbar);
+        toolbar.setTitle("Клієнти");
+        toolbar.getMenu().setGroupVisible(0, true);
 
-        ((Toolbar) (getActivity().findViewById(R.id.main_toolbar)))
-                .getMenu();
         //Navigation.findNavController(view).popBackStack();
         //getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
 
-        fabAddClient = view.findViewById(R.id.fabAddClient);
+        FloatingActionButton fabAddClient = view.findViewById(R.id.fabAddClient);
         fabAddClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,39 +86,64 @@ public class ClientsFragment extends Fragment {
         rv = view.findViewById(R.id.rvClient);
         rv.setLayoutManager(new GridLayoutManager(getContext(), 2));
         adapterRV = new ClientAdapterRV(getContext());
-        ItemClickSupport.addTo(rv).setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
+        ItemClickSupport.addTo(rv).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
-            public boolean onItemLongClicked(RecyclerView recyclerView, int position, View v) {
-                //new DeleteClient().execute(clientList.get(position));
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setMessage("Видалити контакт?")
-                        .setPositiveButton("Так", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new DeleteClient().execute(clientList.get(position));
-                                Toast.makeText(getContext(), "Видалено", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .setNegativeButton("Ні", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setNeutralButton("Редагувати", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getContext(), "Редагування", Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .show();
-
-                return false;
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("CLIENT_INFO", clientList.get(position));
+                Navigation.findNavController(v).navigate(R.id.action_clientsFragment_to_clinetInfoFragment, bundle);
             }
         });
+        ItemClickSupport.addTo(rv).setOnItemLongClickListener((recyclerView, position, v) -> {
+            //new DeleteClient().execute(clientList.get(position));
 
-        //new AddClient().execute();
-        new GetClients().execute();
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setMessage("Видалити контакт?")
+                    .setPositiveButton("Так", (dialog, which) -> {
+//                        new DeleteClient().execute(clientList.get(position));
+                        clientDao.deleteClientRx(clientList.get(position))
+                                .subscribeOn(Schedulers.newThread())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new CompletableObserver() {
+                                    @Override
+                                    public void onSubscribe(@io.reactivex.annotations.NonNull Disposable d) {
+
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+                                        Toast.makeText(getContext(), "Видалено", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    @Override
+                                    public void onError(@io.reactivex.annotations.NonNull Throwable e) {
+                                        Log.e("onError", "onError: DELETE");
+                                    }
+                                });
+
+                    })
+                    .setNegativeButton("Ні", (dialog, which) -> {
+                    })
+                    .setNeutralButton("Редагувати", (dialog, which) -> Toast.makeText(getContext(), "Редагування", Toast.LENGTH_SHORT).show())
+                    .show();
+
+            return false;
+        });
+
+//        new GetClients().execute();
+        Disposable subscribe = clientDao.getAllClientsRx()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Client>>() {
+                    @Override
+                    public void accept(List<Client> list) throws Exception {
+                        clientList = list;
+                        rv.setAdapter(adapterRV);
+                        adapterRV.setList(list);
+                    }
+                });
+
+
 
     }
 
@@ -126,9 +160,9 @@ public class ClientsFragment extends Fragment {
             super.onPostExecute(list);
             clientList = list;
             for (int i = 0; i < list.size(); i++) {
-                Log.wtf("______ROOM DATABASE______", list.get(i).getName());
-                Log.wtf("______ROOM DATABASE______", list.get(i).getPolicyFirstNumber());
-                Log.wtf("______ROOM DATABASE______", list.get(i).getAddress());
+//                Log.wtf("______ROOM DATABASE______", list.get(i).getName());
+//                Log.wtf("______ROOM DATABASE______", list.get(i).getPolicyFirstNumber());
+//                Log.wtf("______ROOM DATABASE______", list.get(i).getAddress());
             }
 
             rv.setAdapter(adapterRV);

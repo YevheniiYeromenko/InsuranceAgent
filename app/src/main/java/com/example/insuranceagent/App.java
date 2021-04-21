@@ -2,21 +2,22 @@ package com.example.insuranceagent;
 
 import android.app.Application;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.room.Room;
 
-import com.example.insuranceagent.business.clients.data.database.room.ClientDatabase;
-import com.example.insuranceagent.business.clients.data.model.Client;
+import com.example.insuranceagent.business.data.database.room.InsuranceDatabase;
 
 public class App extends Application {
-    private ClientDatabase clientDatabase;
+    private InsuranceDatabase insuranceDatabase;
     private static App instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         instance = this;
-        if (clientDatabase == null) {
-            clientDatabase = Room.databaseBuilder(this, ClientDatabase.class, "client_database")
+        if (insuranceDatabase == null) {
+            insuranceDatabase = Room.databaseBuilder(this, InsuranceDatabase.class, "insurance_database")
                     .build();
         }
 
@@ -26,7 +27,7 @@ public class App extends Application {
         return instance;
     }
 
-    public ClientDatabase getClientDatabase() {
-        return clientDatabase;
+    public InsuranceDatabase getInsuranceDatabase() {
+        return insuranceDatabase;
     }
 }

@@ -27,7 +27,8 @@
                 android:id="@+id/etSecondPolicyPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/til_client_policy_second_price" />
+                android:hint="@string/til_client_policy_second_price"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -46,6 +47,7 @@
                 android:id="@+id/etAddADob"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_ADob" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,6 +67,7 @@
                 android:id="@+id/etAddADTraffic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_ADTraffic" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,6 +87,7 @@
                 android:id="@+id/etAddPI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_PI" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,6 +107,7 @@
                 android:id="@+id/etAddPITraffic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_PITraffic" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,6 +125,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etAddBBB"
+                android:inputType="number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/til_client_policy_BBB" />
@@ -141,6 +147,7 @@
                 android:id="@+id/etAddBI"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_BI" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -169,6 +176,7 @@
                 android:id="@+id/etAddH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_H" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -188,6 +196,7 @@
                 android:id="@+id/etAddS"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_S" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -207,6 +216,7 @@
                 android:id="@+id/etAddC"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_C" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -242,6 +252,7 @@
                 android:id="@+id/etAddFCdiagnosis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_FC_diagnosis" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -261,6 +272,7 @@
                 android:id="@+id/etAddFCmonth"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_FC_month" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -280,6 +292,7 @@
                 android:id="@+id/etAddFCday"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_FC_day" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -299,6 +312,7 @@
                 android:id="@+id/etAddCFBdeath"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_CFB_death" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -318,6 +332,7 @@
                 android:id="@+id/etCFBhospital"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_CFB_hospital" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -337,6 +352,7 @@
                 android:id="@+id/etCFBreanimation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:hint="@string/til_client_policy_CFB_reanimation" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -393,7 +409,7 @@
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout11"
+            android:id="@+id/tilCIdiagnosis"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -405,9 +421,11 @@
             app:layout_constraintTop_toBottomOf="@+id/tvCItitle">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etCIdiagnosis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/til_client_policy_CI_diagnosis" />
+                android:hint="@string/til_client_policy_CI_diagnosis"
+                android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <RadioGroup
@@ -417,7 +435,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout11">
+            app:layout_constraintTop_toBottomOf="@+id/tilCIdiagnosis">
 
             <RadioButton
                 android:id="@+id/rbCII1"

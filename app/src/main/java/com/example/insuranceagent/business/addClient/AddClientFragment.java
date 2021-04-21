@@ -1,39 +1,29 @@
 package com.example.insuranceagent.business.addClient;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
-import com.example.insuranceagent.App;
 import com.example.insuranceagent.R;
-import com.example.insuranceagent.business.clients.ClientsFragment;
-import com.example.insuranceagent.business.clients.data.database.room.ClientDao;
-import com.example.insuranceagent.business.clients.data.database.room.ClientDatabase;
-import com.example.insuranceagent.business.clients.data.model.Client;
+import com.example.insuranceagent.business.data.database.room.ClientDao;
+import com.example.insuranceagent.business.data.model.Client;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class AddClientFragment extends Fragment{
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class AddClientFragment extends Fragment {
 
     private TextInputEditText etAddClientName;
     private TextInputEditText etAddClientTel;
@@ -51,24 +41,19 @@ public class AddClientFragment extends Fragment{
     private TextInputLayout tilAddClientDuration;
     private TextInputLayout tilAddClientStartDate;
 
+    private CheckBox cbAddFirstPolicy;
+    private CheckBox cbAddSecondPolicy;
 
-    private boolean expandableFlag = false;
     private Button bNext;
 
     private ClientDao clientDao;
     private NavController navController;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        ClientDatabase database = App.getInstance().getClientDatabase();
-        clientDao = database.clientDao();
+
     }
 
     @Override
@@ -82,12 +67,37 @@ public class AddClientFragment extends Fragment{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Toolbar toolbar = getActivity().findViewById(R.id.main_toolbar);
+        toolbar.setTitle("Додати клієнта");
+        toolbar.getMenu().getItem(0).setVisible(false);
+
         getActivity().findViewById(R.id.nav_view).setVisibility(View.GONE);
 //        ((Toolbar)(getActivity().findViewById(R.id.main_toolbar)))
 //                .getMenu()
 //                .getItem(0)
 //                .setVisible(false);
 
+        initAllView(view);
+
+
+        bNext = view.findViewById(R.id.bNext);
+        bNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Client client = new Client();
+                setClient(client);
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("CLIENT", client);
+
+                goToNextFragment(bundle, view);
+
+            }
+        });
+    }
+
+    private void initAllView(View view) {
         etAddClientName = view.findViewById(R.id.etAddClientName);
         etAddpolicyFirstNumber = view.findViewById(R.id.etAddpolicyFirstNumber);
         etAddpolicySecondNumber = view.findViewById(R.id.etAddpolicySecondNumber);
@@ -104,51 +114,96 @@ public class AddClientFragment extends Fragment{
         tilAddClientDuration = view.findViewById(R.id.tilAddClientDuration);
         tilAddClientStartDate = view.findViewById(R.id.tilAddClientStartDate);
 
+        cbAddFirstPolicy = view.findViewById(R.id.cbAddFirstPolicy);
+        cbAddSecondPolicy = view.findViewById(R.id.cbAddSecondPolicy);
 
-        bNext = view.findViewById(R.id.bNext);
-        bNext.setOnClickListener(new View.OnClickListener() {
+        etAddpolicyFirstNumber.setEnabled(cbAddFirstPolicy.isChecked());
+        etAddpolicySecondNumber.setEnabled(cbAddFirstPolicy.isChecked());
+
+        cbAddFirstPolicy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-
-                Bundle bundle = new Bundle();
-                bundle.putString("TEST_STRING", "Test string");
-
-                navController = Navigation.findNavController(v);
-                navController.navigate(R.id.action_addClientFragment_to_secondPolicyFragment, bundle);
-                //navController.popBackStack();
-
-/*                if (etAddpolicyFirstNumber.getText().length() < 9)
-                    tilAddPolicyFirstNumber.setError("Короткий номер");
-                else {
-                    tilAddPolicyFirstNumber.setErrorEnabled(false);
-                    Client client = new Client(name, tel, address, polycyFirst, polycySecond, duration, startDate);
-                    navController = Navigation.findNavController(v);
-//                    new AddClient(client).execute();
-                }*/
-
-
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                etAddpolicyFirstNumber.setEnabled(cbAddFirstPolicy.isChecked());
+                if (!cbAddFirstPolicy.isChecked())
+                    etAddpolicyFirstNumber.setText("");
+            }
+        });
+        cbAddSecondPolicy.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                etAddpolicySecondNumber.setEnabled(cbAddSecondPolicy.isChecked());
+                if (!cbAddSecondPolicy.isChecked())
+                    etAddpolicySecondNumber.setText("");
             }
         });
     }
 
-    class AddClient extends AsyncTask<Void, Void, Void> {
-        private Client client;
-
-        public AddClient(Client client) {
-            this.client = client;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            clientDao.addClient(client);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Toast.makeText(getContext(), "Додано", Toast.LENGTH_SHORT).show();
-            navController.popBackStack();
+    private void goToNextFragment(Bundle bundle, View view) {
+        if (!(tilAddClientName.isErrorEnabled() ||
+                tilAddClientTel.isErrorEnabled() ||
+                tilAddClientAddress.isErrorEnabled() ||
+                tilAddClientDuration.isErrorEnabled() ||
+                tilAddClientStartDate.isErrorEnabled() ||
+                tilAddPolicyFirstNumber.isErrorEnabled() ||
+                tilAddPolicySecondNumber.isErrorEnabled())) {
+            Log.e("", "onClick: " + "NOT SET ERROR");
+            navController = Navigation.findNavController(view);
+            navController.navigate(R.id.action_addClientFragment_to_secondPolicyFragment, bundle);
         }
     }
+
+    private void setClient(Client client) {
+
+        tilAddClientName.setErrorEnabled(false);
+        tilAddClientTel.setErrorEnabled(false);
+        tilAddClientAddress.setErrorEnabled(false);
+        tilAddClientDuration.setErrorEnabled(false);
+        tilAddClientStartDate.setErrorEnabled(false);
+        tilAddPolicyFirstNumber.setErrorEnabled(false);
+        tilAddPolicySecondNumber.setErrorEnabled(false);
+
+        if (etAddClientName.getText().length() == 0) {
+            tilAddClientName.setError("Заповніть поле");
+            tilAddClientName.setErrorEnabled(true);
+        } else {
+            client.name = etAddClientName.getText().toString();
+        }
+        if (etAddClientTel.getText().length() == 0) {
+            tilAddClientTel.setError("Заповніть поле");
+            tilAddClientTel.setErrorEnabled(true);
+        } else {
+            client.telNumber = etAddClientTel.getText().toString();
+        }
+        if (etAddClientAddress.getText().length() == 0) {
+            tilAddClientAddress.setError("Заповніть поле");
+            tilAddClientAddress.setErrorEnabled(true);
+        } else {
+            client.address = etAddClientAddress.getText().toString();
+        }
+        if (etAddClientDuration.getText().length() == 0) {
+            tilAddClientDuration.setError("Заповніть поле");
+            tilAddClientDuration.setErrorEnabled(true);
+        } else {
+            client.duration = etAddClientDuration.getText().toString();
+        }
+        if (etAddClientStartDate.getText().length() == 0) {
+            tilAddClientStartDate.setError("Заповніть поле");
+            tilAddClientStartDate.setErrorEnabled(true);
+        } else {
+            client.startDate = etAddClientStartDate.getText().toString();
+        }
+        if (cbAddFirstPolicy.isChecked() && (etAddpolicyFirstNumber.getText().length() < 9)) {
+            tilAddPolicyFirstNumber.setError("Короткий номер");
+            tilAddPolicyFirstNumber.setErrorEnabled(true);
+        } else {
+            client.policyFirstNumber = etAddpolicyFirstNumber.getText().toString();
+        }
+        if (cbAddSecondPolicy.isChecked() && (etAddpolicySecondNumber.getText().length() < 9)) {
+            tilAddPolicySecondNumber.setError("Короткий номер");
+            tilAddPolicySecondNumber.setErrorEnabled(true);
+        } else {
+            client.policySecondNumber = etAddpolicySecondNumber.getText().toString();
+        }
+    }
+
 }

@@ -19,7 +19,7 @@
         android:layout_marginRight="24dp"
         android:layout_marginBottom="80dp"
         android:src="@drawable/ic_baseline_add_24"
-        app:backgroundTint="#FF1744"
+        app:backgroundTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="@+id/rvClient"
         app:layout_constraintEnd_toEndOf="parent" />
 

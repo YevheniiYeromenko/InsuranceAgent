@@ -1,10 +1,12 @@
 package com.example.insuranceagent.business.addClient;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -15,20 +17,55 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import com.example.insuranceagent.App;
 import com.example.insuranceagent.R;
-import com.example.insuranceagent.business.clients.data.model.PolicySecond;
+import com.example.insuranceagent.business.data.database.room.ClientDao;
+import com.example.insuranceagent.business.data.database.room.InsuranceDatabase;
+import com.example.insuranceagent.business.data.model.Client;
+import com.example.insuranceagent.business.data.model.PolicySecond;
 
 
 public class SecondPolicyFragment extends Fragment {
 
+    private Client client = new Client();
+
+    private EditText etSecondPolicyPrice;
+    private EditText etAddADob;
+    private EditText etAddADTraffic;
+    private EditText etAddPI;
+    private EditText etAddPITraffic;
+    private EditText etAddBBB;
+    private EditText etAddBI;
+    private EditText etAddH;
+    private EditText etAddS;
+    private EditText etAddC;
+    private EditText etAddFCdiagnosis;
+    private EditText etAddFCmonth;
+    private EditText etAddFCday;
+    private EditText etAddCFBdeath;
+    private EditText etCFBhospital;
+    private EditText etCFBreanimation;
+    private EditText etCIdiagnosis;
+    private RadioGroup radio_group_CFB_1_10_65;
+    private RadioGroup radio_group_CI_1_7_32;
+    private RadioGroup radio_group_CI_1_10_65;
+    private CheckBox checkBoxAs;
+
+    private ClientDao clientDao;
+    private NavController navController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null){
-            Log.e("TAG", "onCreate: " + getArguments().getString("TEST_STRING"));
+        if (getArguments() != null) {
+            client = getArguments().getParcelable("CLIENT");
+            Log.e("TAG", "onCreate: " + client.name);
         }
+
+        InsuranceDatabase database = App.getInstance().getInsuranceDatabase();
+        clientDao = database.clientDao();
     }
 
     @Override
@@ -42,49 +79,76 @@ public class SecondPolicyFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-
-
+        initAllView(view);
 
         Button bCreateClient = view.findViewById(R.id.bCreateClient);
         bCreateClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                readPolicyInfo(view);
+                readPolicyInfo();
+                //Navigation.findNavController(v).popBackStack(R.id.clientsFragment, false);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("POLICY", client);
+                navController = Navigation.findNavController(v);
 
-                Navigation.findNavController(v).popBackStack(R.id.clientsFragment, false);
+                new AddClient(client).execute();
             }
         });
 
 
-
-
     }
 
-    private void readPolicyInfo(View view) {
-        PolicySecond policySecond = new PolicySecond();
-        policySecond.price = ((EditText) view.findViewById(R.id.etSecondPolicyPrice)).getText().toString();
-        policySecond.prgADob = ((EditText) view.findViewById(R.id.etAddADob)).getText().toString();
-        policySecond.prgADTraffic = ((EditText) view.findViewById(R.id.etAddADTraffic)).getText().toString();
-        policySecond.prgPI = ((EditText) view.findViewById(R.id.etAddPI)).getText().toString();
-        policySecond.prgPITraffic = ((EditText) view.findViewById(R.id.etAddPITraffic)).getText().toString();
-        policySecond.prgBBB = ((EditText) view.findViewById(R.id.etAddBBB)).getText().toString();
-        policySecond.prgBI = ((EditText) view.findViewById(R.id.etAddBI)).getText().toString();
-        policySecond.as = ((CheckBox) view.findViewById(R.id.checkBoxAs)).isChecked();
-        policySecond.prgH = ((EditText) view.findViewById(R.id.etAddH)).getText().toString();
-        policySecond.prgS = ((EditText) view.findViewById(R.id.etAddS)).getText().toString();
-        policySecond.prgC = ((EditText) view.findViewById(R.id.etAddC)).getText().toString();
-        policySecond.prgFCdiagnosis = ((EditText) view.findViewById(R.id.etAddFCdiagnosis)).getText().toString();
-        policySecond.prgFCmonth = ((EditText) view.findViewById(R.id.etAddFCmonth)).getText().toString();
-        policySecond.prgFCday = ((EditText) view.findViewById(R.id.etAddFCday)).getText().toString();
-        policySecond.prgCFBdeath = ((EditText) view.findViewById(R.id.etAddCFBdeath)).getText().toString();
-        policySecond.prgCFBhospital = ((EditText) view.findViewById(R.id.etCFBhospital)).getText().toString();
-        policySecond.prgCFBreanimation = ((EditText) view.findViewById(R.id.etCFBreanimation)).getText().toString();
-        policySecond.prgCIdiagnosis = ((EditText) view.findViewById(R.id.etCFBreanimation)).getText().toString();
+    private void initAllView(View view) {
 
-        RadioGroup radio_group_CFB_1_10_65 = view.findViewById(R.id.radio_group_CFB__1_10_65);
-        RadioGroup radio_group_CI_1_7_32 = view.findViewById(R.id.radio_group_CI_1_7_32);
-        RadioGroup radio_group_CI_1_10_65 = view.findViewById(R.id.radio_group_CI_1_10_65);
+        etSecondPolicyPrice = view.findViewById(R.id.etSecondPolicyPrice);
+        etAddADob = view.findViewById(R.id.etAddADob);
+        etAddADTraffic = view.findViewById(R.id.etAddADTraffic);
+        etAddPI = view.findViewById(R.id.etAddPI);
+        etAddPITraffic = view.findViewById(R.id.etAddPITraffic);
+        etAddBBB = view.findViewById(R.id.etAddBBB);
+        etAddBI = view.findViewById(R.id.etAddBI);
+        checkBoxAs = view.findViewById(R.id.checkBoxAs);
+        etAddH = view.findViewById(R.id.etAddH);
+        etAddS = view.findViewById(R.id.etAddS);
+        etAddC = view.findViewById(R.id.etAddC);
+        etAddFCdiagnosis = view.findViewById(R.id.etAddFCdiagnosis);
+        etAddFCmonth = view.findViewById(R.id.etAddFCmonth);
+        etAddFCday = view.findViewById(R.id.etAddFCday);
+        etAddCFBdeath = view.findViewById(R.id.etAddCFBdeath);
+        etCFBhospital = view.findViewById(R.id.etCFBhospital);
+        etCFBreanimation = view.findViewById(R.id.etCFBreanimation);
+        etCIdiagnosis = view.findViewById(R.id.etCIdiagnosis);
+
+        radio_group_CFB_1_10_65 = view.findViewById(R.id.radio_group_CFB__1_10_65);
+        radio_group_CFB_1_10_65.check(R.id.rbCFBduration1);
+        radio_group_CI_1_7_32 = view.findViewById(R.id.radio_group_CI_1_7_32);
+        radio_group_CI_1_7_32.check(R.id.rbCII1);
+        radio_group_CI_1_10_65 = view.findViewById(R.id.radio_group_CI_1_10_65);
+        radio_group_CI_1_10_65.check(R.id.rbCIduration1);
+    }
+
+    private void readPolicyInfo() {
+        PolicySecond policySecond = new PolicySecond();
+
+        policySecond.price = etSecondPolicyPrice.getText().toString();
+        policySecond.prgADob = etAddADob.getText().toString();
+        policySecond.prgADTraffic = etAddADTraffic.getText().toString();
+        policySecond.prgPI = etAddPI.getText().toString();
+        policySecond.prgPITraffic = etAddPITraffic.getText().toString();
+        policySecond.prgBBB = etAddBBB.getText().toString();
+        policySecond.prgBI = etAddBI.getText().toString();
+        policySecond.prgH = etAddH.getText().toString();
+        policySecond.prgS = etAddS.getText().toString();
+        policySecond.prgC = etAddC.getText().toString();
+        policySecond.prgFCdiagnosis = etAddFCdiagnosis.getText().toString();
+        policySecond.prgFCmonth = etAddFCmonth.getText().toString();
+        policySecond.prgFCday = etAddFCday.getText().toString();
+        policySecond.prgCFBdeath = etAddCFBdeath.getText().toString();
+        policySecond.prgCFBhospital = etCFBhospital.getText().toString();
+        policySecond.prgCFBreanimation = etCFBreanimation.getText().toString();
+        policySecond.prgCIdiagnosis = etCIdiagnosis.getText().toString();
+
+        policySecond.as = checkBoxAs.isChecked();
 
         switch (radio_group_CFB_1_10_65.getCheckedRadioButtonId()) {
             case R.id.rbCFBduration1:
@@ -120,6 +184,29 @@ public class SecondPolicyFragment extends Fragment {
                 break;
         }
 
+        client.policySecond = policySecond;
+
         Log.e("TAG", "onClick: " + policySecond.toString());
+    }
+
+    class AddClient extends AsyncTask<Void, Void, Void> {
+        private Client client;
+
+        public AddClient(Client client) {
+            this.client = client;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            clientDao.addClient(client);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(getContext(), "Додано", Toast.LENGTH_SHORT).show();
+            navController.navigate(R.id.action_secondPolicyFragment_to_clientsFragment);
+        }
     }
 }

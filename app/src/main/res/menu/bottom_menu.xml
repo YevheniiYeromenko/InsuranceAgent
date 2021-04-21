@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/clientsFragment"
-        android:title="Clients"
-        android:icon="@drawable/ic_baseline_accessibility_new_24"/>
-    <item
-        android:id="@+id/infoFragment"
-        android:title="Info"
-        android:icon="@drawable/ic_baseline_info_24"/>
+  <item
+      android:id="@+id/clientsFragment"
+      android:icon="@drawable/ic_baseline_accessibility_new_24"
+      android:title="Clients" />
+  <item
+      android:id="@+id/calculatorFragment"
+      android:icon="@drawable/ic_baseline_calculate_24"
+      android:title="Calculator" />
+  <item
+      android:id="@+id/infoFragment"
+      android:icon="@drawable/ic_baseline_info_24"
+      android:title="Info" />
 
 </menu>
